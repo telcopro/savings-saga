@@ -10,10 +10,11 @@ import { LanguageProvider } from "./contexts/LanguageContext";
 import { MessagesProvider } from "./contexts/MessagesContext";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Landing from "./pages/Landing";
 
 const queryClient = new QueryClient();
 
-// Create auth context
 export const AuthContext = createContext<{
   isAuthenticated: boolean;
   login: () => void;
@@ -50,12 +51,16 @@ const App = () => {
                   <BrowserRouter>
                     <Routes>
                       <Route 
+                        path="/" 
+                        element={isAuthenticated ? <Index /> : <Landing />} 
+                      />
+                      <Route 
                         path="/login" 
                         element={isAuthenticated ? <Navigate to="/" /> : <Login />} 
                       />
                       <Route 
-                        path="/" 
-                        element={isAuthenticated ? <Index /> : <Navigate to="/login" />} 
+                        path="/signup" 
+                        element={isAuthenticated ? <Navigate to="/" /> : <Signup />} 
                       />
                     </Routes>
                   </BrowserRouter>
