@@ -73,5 +73,13 @@ export const en = {
   messages: "Messages",
   fromStaff: "From Staff",
   fromYou: "From You",
-  selectMessage: "Select a message to view its contents"
+  selectMessage: "Select a message to view its contents",
+  newMessage: "New Message",
+  subject: "Subject",
+  messageContent: "Message Content",
+  sendMessage: "Send Message",
+  sendReply: "Send Reply",
+  writeReply: "Write your reply...",
+  messageSent: "Message Sent",
+  messageSentDescription: "Your message has been sent successfully."
 };

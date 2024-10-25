@@ -73,5 +73,13 @@ export const de = {
   messages: "Nachrichten",
   fromStaff: "Von Mitarbeiter",
   fromYou: "Von Ihnen",
-  selectMessage: "Wählen Sie eine Nachricht aus, um den Inhalt anzuzeigen"
+  selectMessage: "Wählen Sie eine Nachricht aus, um den Inhalt anzuzeigen",
+  newMessage: "Neue Nachricht",
+  subject: "Betreff",
+  messageContent: "Nachrichteninhalt",
+  sendMessage: "Nachricht senden",
+  sendReply: "Antwort senden",
+  writeReply: "Schreiben Sie Ihre Antwort...",
+  messageSent: "Nachricht gesendet",
+  messageSentDescription: "Ihre Nachricht wurde erfolgreich gesendet."
 };

@@ -12,6 +12,8 @@ export interface Message {
 interface MessagesContextType {
   messages: Message[];
   markAsRead: (id: number) => void;
+  sendMessage: (subject: string, content: string) => void;
+  replyToMessage: (originalMessageId: number, content: string) => void;
 }
 
 const MessagesContext = createContext<MessagesContextType | undefined>(undefined);
@@ -42,8 +44,35 @@ export const MessagesProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     ));
   };
 
+  const sendMessage = (subject: string, content: string) => {
+    const newMessage = {
+      id: messages.length + 1,
+      date: new Date().toISOString().split('T')[0],
+      subject,
+      content,
+      isRead: true,
+      fromStaff: false
+    };
+    setMessages([newMessage, ...messages]);
+  };
+
+  const replyToMessage = (originalMessageId: number, content: string) => {
+    const originalMessage = messages.find(msg => msg.id === originalMessageId);
+    if (!originalMessage) return;
+
+    const newMessage = {
+      id: messages.length + 1,
+      date: new Date().toISOString().split('T')[0],
+      subject: `Re: ${originalMessage.subject}`,
+      content,
+      isRead: true,
+      fromStaff: false
+    };
+    setMessages([newMessage, ...messages]);
+  };
+
   return (
-    <MessagesContext.Provider value={{ messages, markAsRead }}>
+    <MessagesContext.Provider value={{ messages, markAsRead, sendMessage, replyToMessage }}>
       {children}
     </MessagesContext.Provider>
   );

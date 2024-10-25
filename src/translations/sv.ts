@@ -73,5 +73,13 @@ export const sv = {
     messages: "Meddelanden",
     fromStaff: "Från Personal",
     fromYou: "Från Dig",
-    selectMessage: "Välj ett meddelande för att visa innehållet"
+    selectMessage: "Välj ett meddelande för att visa innehållet",
+    newMessage: "Nytt meddelande",
+    subject: "Ämne",
+    messageContent: "Meddelandeinnehåll",
+    sendMessage: "Skicka meddelande",
+    sendReply: "Skicka svar",
+    writeReply: "Skriv ditt svar...",
+    messageSent: "Meddelande skickat",
+    messageSentDescription: "Ditt meddelande har skickats."
 };
