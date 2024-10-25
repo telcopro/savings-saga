@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
+import TransactionHistory from "./TransactionHistory";
 
 interface Account {
   id: number;
@@ -12,10 +14,27 @@ interface AccountsListProps {
 }
 
 const AccountsList = ({ accounts }: AccountsListProps) => {
+  const [selectedAccount, setSelectedAccount] = useState<Account | null>(null);
+
+  if (selectedAccount) {
+    return (
+      <TransactionHistory
+        accountId={selectedAccount.id}
+        accountType={selectedAccount.type}
+        accountNumber={selectedAccount.accountNumber}
+        onBack={() => setSelectedAccount(null)}
+      />
+    );
+  }
+
   return (
     <div className="grid gap-4 md:grid-cols-2">
       {accounts.map((account) => (
-        <Card key={account.id} className="p-6">
+        <Card 
+          key={account.id} 
+          className="p-6 cursor-pointer hover:shadow-lg transition-shadow"
+          onClick={() => setSelectedAccount(account)}
+        >
           <h3 className="text-lg font-semibold">{account.type} Account</h3>
           <p className="text-sm text-gray-500">Account: {account.accountNumber}</p>
           <p className="text-2xl font-bold mt-2">
