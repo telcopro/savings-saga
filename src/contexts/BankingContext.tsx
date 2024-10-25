@@ -85,6 +85,10 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       throw new Error("Invalid account selection");
     }
 
+    if (amount <= 0) {
+      throw new Error("Amount must be greater than 0");
+    }
+
     if (fromAccount.balance < amount) {
       throw new Error("Insufficient funds");
     }
