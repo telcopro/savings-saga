@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { createContext, useContext, useState } from "react";
 import { BankingProvider } from "./contexts/BankingContext";
 import { MortgageProvider } from "./contexts/MortgageContext";
+import { LanguageProvider } from "./contexts/LanguageContext";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 
@@ -40,22 +41,24 @@ const App = () => {
       <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
         <BankingProvider>
           <MortgageProvider>
-            <TooltipProvider>
-              <Toaster />
-              <Sonner />
-              <BrowserRouter>
-                <Routes>
-                  <Route 
-                    path="/login" 
-                    element={isAuthenticated ? <Navigate to="/" /> : <Login />} 
-                  />
-                  <Route 
-                    path="/" 
-                    element={isAuthenticated ? <Index /> : <Navigate to="/login" />} 
-                  />
-                </Routes>
-              </BrowserRouter>
-            </TooltipProvider>
+            <LanguageProvider>
+              <TooltipProvider>
+                <Toaster />
+                <Sonner />
+                <BrowserRouter>
+                  <Routes>
+                    <Route 
+                      path="/login" 
+                      element={isAuthenticated ? <Navigate to="/" /> : <Login />} 
+                    />
+                    <Route 
+                      path="/" 
+                      element={isAuthenticated ? <Index /> : <Navigate to="/login" />} 
+                    />
+                  </Routes>
+                </BrowserRouter>
+              </TooltipProvider>
+            </LanguageProvider>
           </MortgageProvider>
         </BankingProvider>
       </AuthContext.Provider>

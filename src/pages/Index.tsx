@@ -8,6 +8,7 @@ import NewAccount from "@/components/NewAccount";
 import WithdrawMoney from "@/components/WithdrawMoney";
 import CustomerProfile from "@/components/CustomerProfile";
 import Mortgages from "@/components/Mortgages";
+import LanguageSelector from "@/components/LanguageSelector";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Banknote, ArrowRight, CreditCard, Wallet, User, Home } from "lucide-react";
 import { useBanking } from "@/contexts/BankingContext";
@@ -21,8 +22,9 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-gray-900">Welcome to SecureBank</h1>
+          <LanguageSelector />
         </div>
       </header>
 
