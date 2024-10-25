@@ -2,22 +2,17 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { useNavigate } from "react-router-dom";
 import { Shield, Smartphone } from "lucide-react";
+import { useAuth } from "../App";
 
 const Login = () => {
   const { toast } = useToast();
-  const navigate = useNavigate();
+  const { login } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleBankIDLogin = async () => {
     setIsLoading(true);
     try {
-      // In a real implementation, this would:
-      // 1. Call your backend to initiate Mobile BankID authentication
-      // 2. Start polling for authentication status
-      // 3. Receive the SSN upon successful authentication
-      
       // Simulating BankID authentication delay
       await new Promise(resolve => setTimeout(resolve, 1500));
       
@@ -25,7 +20,7 @@ const Login = () => {
         title: "Login Successful",
         description: "Welcome to SecureBank",
       });
-      navigate("/");
+      login(); // This will now trigger the navigation
     } catch (error) {
       toast({
         title: "Login Failed",
