@@ -69,9 +69,9 @@ export const sv = {
     howToLogin: "Hur du loggar in:",
     mobileLoginInstructions: "Om du använder en mobil enhet: Mobilt BankID öppnas automatiskt på din enhet",
     computerLoginInstructions: "Om du använder en dator: Öppna Mobilt BankID på din telefon och skanna QR-koden som visas",
-    bankIDInstallNote: "Se till att du har Mobilt BankID installerat på din telefon"
-  messages: "Meddelanden",
-  fromStaff: "Från Personal",
-  fromYou: "Från Dig",
-  selectMessage: "Välj ett meddelande för att visa innehållet"
+    bankIDInstallNote: "Se till att du har Mobilt BankID installerat på din telefon",
+    messages: "Meddelanden",
+    fromStaff: "Från Personal",
+    fromYou: "Från Dig",
+    selectMessage: "Välj ett meddelande för att visa innehållet"
 };
