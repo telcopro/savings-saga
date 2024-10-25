@@ -12,6 +12,7 @@ import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Landing from "./pages/Landing";
+import EmailConfirmation from "./pages/EmailConfirmation";
 
 const queryClient = new QueryClient();
 
@@ -61,6 +62,10 @@ const App = () => {
                       <Route 
                         path="/signup" 
                         element={isAuthenticated ? <Navigate to="/" /> : <Signup />} 
+                      />
+                      <Route 
+                        path="/auth/confirm" 
+                        element={<EmailConfirmation />} 
                       />
                     </Routes>
                   </BrowserRouter>
