@@ -5,18 +5,20 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import { useBanking } from "@/contexts/BankingContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const NewAccount = () => {
   const { toast } = useToast();
   const { addAccount } = useBanking();
+  const { t } = useLanguage();
   const [accountType, setAccountType] = useState("");
   const [initialDeposit, setInitialDeposit] = useState("");
 
   const handleCreateAccount = () => {
     if (!accountType || !initialDeposit || Number(initialDeposit) <= 0) {
       toast({
-        title: "Invalid Input",
-        description: "Please select an account type and enter a valid initial deposit amount.",
+        title: t('invalidInput'),
+        description: t('invalidInputMessage'),
         variant: "destructive",
       });
       return;
@@ -25,37 +27,36 @@ const NewAccount = () => {
     addAccount(accountType, Number(initialDeposit));
     
     toast({
-      title: "Account Created",
-      description: "Your new account has been created successfully.",
+      title: t('accountCreated'),
+      description: t('accountCreatedMessage'),
     });
 
-    // Reset form
     setAccountType("");
     setInitialDeposit("");
   };
 
   return (
     <Card className="p-6 max-w-md mx-auto">
-      <h2 className="text-xl font-semibold mb-4">Open New Account</h2>
+      <h2 className="text-xl font-semibold mb-4">{t('newAccount')}</h2>
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium mb-1">Account Type</label>
+          <label className="block text-sm font-medium mb-1">{t('accountType')}</label>
           <Select value={accountType} onValueChange={setAccountType}>
             <SelectTrigger>
-              <SelectValue placeholder="Select account type" />
+              <SelectValue placeholder={t('selectAccountType')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Savings">Savings Account</SelectItem>
-              <SelectItem value="Checking">Checking Account</SelectItem>
+              <SelectItem value="Savings">{t('savingsAccount')}</SelectItem>
+              <SelectItem value="Checking">{t('checkingAccount')}</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Initial Deposit</label>
+          <label className="block text-sm font-medium mb-1">{t('initialDeposit')}</label>
           <Input
             type="number"
-            placeholder="Enter initial deposit"
+            placeholder={t('enterInitialDeposit')}
             value={initialDeposit}
             onChange={(e) => setInitialDeposit(e.target.value)}
             min="0"
@@ -68,7 +69,7 @@ const NewAccount = () => {
           onClick={handleCreateAccount}
           disabled={!accountType || !initialDeposit || Number(initialDeposit) <= 0}
         >
-          Create Account
+          {t('createAccount')}
         </Button>
       </div>
     </Card>

@@ -3,17 +3,19 @@ import { useMortgage } from "@/contexts/MortgageContext";
 import { Badge } from "@/components/ui/badge";
 import { CalendarDays, Home } from "lucide-react";
 import { format, parseISO } from "date-fns";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Mortgages = () => {
   const { mortgages } = useMortgage();
+  const { t } = useLanguage();
 
   if (mortgages.length === 0) {
     return (
       <Card className="p-6">
         <div className="text-center text-gray-500">
           <Home className="mx-auto h-12 w-12 mb-4" />
-          <h3 className="text-lg font-medium">No Active Mortgages</h3>
-          <p>You don't have any active mortgages at the moment.</p>
+          <h3 className="text-lg font-medium">{t('noMortgages')}</h3>
+          <p>{t('noMortgagesMessage')}</p>
         </div>
       </Card>
     );
@@ -36,31 +38,31 @@ const Mortgages = () => {
               <div>
                 <h3 className="text-xl font-semibold">{mortgage.propertyAddress}</h3>
                 <Badge variant={mortgage.isUpToDate ? "secondary" : "destructive"}>
-                  {mortgage.isUpToDate ? "Up to date" : "Payment required"}
+                  {mortgage.isUpToDate ? t('upToDate') : t('paymentRequired')}
                 </Badge>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm text-gray-500">Total Amount</p>
+                  <p className="text-sm text-gray-500">{t('totalAmount')}</p>
                   <p className="font-semibold">
                     ${mortgage.totalAmount.toLocaleString()}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Remaining Balance</p>
+                  <p className="text-sm text-gray-500">{t('remainingBalance')}</p>
                   <p className="font-semibold">
                     ${mortgage.remainingBalance.toLocaleString()}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Monthly Payment</p>
+                  <p className="text-sm text-gray-500">{t('monthlyPayment')}</p>
                   <p className="font-semibold">
                     ${mortgage.monthlyPayment.toLocaleString()}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Next Payment Due</p>
+                  <p className="text-sm text-gray-500">{t('nextPaymentDue')}</p>
                   <div className="flex items-center gap-2">
                     <CalendarDays className="h-4 w-4 text-gray-500" />
                     <p className="font-semibold">
@@ -71,7 +73,7 @@ const Mortgages = () => {
               </div>
 
               <div>
-                <h4 className="font-medium mb-2">Recent Payments</h4>
+                <h4 className="font-medium mb-2">{t('recentPayments')}</h4>
                 <div className="space-y-2">
                   {mortgage.paymentHistory.map((payment, index) => (
                     <div key={index} className="flex justify-between items-center text-sm">
@@ -81,7 +83,7 @@ const Mortgages = () => {
                         payment.status === 'paid' ? "secondary" : 
                         payment.status === 'pending' ? "outline" : "destructive"
                       }>
-                        {payment.status}
+                        {t(payment.status)}
                       </Badge>
                     </div>
                   ))}
