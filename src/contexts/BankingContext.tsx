@@ -21,6 +21,7 @@ interface BankingContextType {
   transactions: Transaction[];
   transferMoney: (fromAccountId: number, toAccountId: number, amount: number) => void;
   getAccountTransactions: (accountId: number) => Transaction[];
+  addAccount: (type: string, initialDeposit: number) => void;
 }
 
 const BankingContext = createContext<BankingContextType | undefined>(undefined);
@@ -49,6 +50,32 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       accountId: 1
     }
   ]);
+
+  const addAccount = (type: string, initialDeposit: number) => {
+    const newId = Math.max(...accounts.map(acc => acc.id), 0) + 1;
+    const accountNumber = Math.random().toString().slice(2, 6);
+    
+    const newAccount: Account = {
+      id: newId,
+      type,
+      balance: initialDeposit,
+      accountNumber: `****${accountNumber}`
+    };
+
+    setAccounts([...accounts, newAccount]);
+
+    // Create initial deposit transaction
+    const newTransaction: Transaction = {
+      id: Date.now(),
+      date: new Date().toISOString().split('T')[0],
+      description: "Initial Deposit",
+      amount: initialDeposit,
+      type: "credit",
+      accountId: newId
+    };
+
+    setTransactions([...transactions, newTransaction]);
+  };
 
   const transferMoney = (fromAccountId: number, toAccountId: number, amount: number) => {
     const fromAccount = accounts.find(acc => acc.id === fromAccountId);
@@ -105,7 +132,8 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       accounts, 
       transactions, 
       transferMoney,
-      getAccountTransactions 
+      getAccountTransactions,
+      addAccount
     }}>
       {children}
     </BankingContext.Provider>
