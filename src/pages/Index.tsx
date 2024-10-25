@@ -9,8 +9,10 @@ import WithdrawMoney from "@/components/WithdrawMoney";
 import CustomerProfile from "@/components/CustomerProfile";
 import Mortgages from "@/components/Mortgages";
 import LanguageSelector from "@/components/LanguageSelector";
+import Messages from "@/components/Messages";
+import { MessagesProvider } from "@/contexts/MessagesContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Banknote, ArrowRight, CreditCard, Wallet, User, Home } from "lucide-react";
+import { Banknote, ArrowRight, CreditCard, Wallet, User, Home, MessageSquare } from "lucide-react";
 import { useBanking } from "@/contexts/BankingContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -31,65 +33,75 @@ const Index = () => {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Tabs defaultValue="accounts" className="space-y-8">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-3">
-            <TabsTrigger value="accounts" onClick={() => setActiveTab("accounts")}>
-              <Banknote className="mr-2 h-4 w-4" />
-              {t('accounts')}
-            </TabsTrigger>
-            <TabsTrigger value="mortgages" onClick={() => setActiveTab("mortgages")}>
-              <Home className="mr-2 h-4 w-4" />
-              {t('mortgages')}
-            </TabsTrigger>
-            <TabsTrigger value="profile" onClick={() => setActiveTab("profile")}>
-              <User className="mr-2 h-4 w-4" />
-              {t('profile')}
-            </TabsTrigger>
-          </TabsList>
+        <MessagesProvider>
+          <Tabs defaultValue="accounts" className="space-y-8">
+            <TabsList className="grid w-full max-w-md mx-auto grid-cols-4">
+              <TabsTrigger value="accounts" onClick={() => setActiveTab("accounts")}>
+                <Banknote className="mr-2 h-4 w-4" />
+                {t('accounts')}
+              </TabsTrigger>
+              <TabsTrigger value="mortgages" onClick={() => setActiveTab("mortgages")}>
+                <Home className="mr-2 h-4 w-4" />
+                {t('mortgages')}
+              </TabsTrigger>
+              <TabsTrigger value="messages" onClick={() => setActiveTab("messages")}>
+                <MessageSquare className="mr-2 h-4 w-4" />
+                {t('messages')}
+              </TabsTrigger>
+              <TabsTrigger value="profile" onClick={() => setActiveTab("profile")}>
+                <User className="mr-2 h-4 w-4" />
+                {t('profile')}
+              </TabsTrigger>
+            </TabsList>
 
-          <TabsContent value="accounts">
-            <Tabs value={activeAccountTab} className="space-y-6">
-              <TabsList className="grid w-full max-w-md mx-auto grid-cols-4">
-                <TabsTrigger value="list" onClick={() => setActiveAccountTab("list")}>
-                  {t('overview')}
-                </TabsTrigger>
-                <TabsTrigger value="transfer" onClick={() => setActiveAccountTab("transfer")}>
-                  {t('transfer')}
-                </TabsTrigger>
-                <TabsTrigger value="new-account" onClick={() => setActiveAccountTab("new-account")}>
-                  {t('newAccount')}
-                </TabsTrigger>
-                <TabsTrigger value="withdraw" onClick={() => setActiveAccountTab("withdraw")}>
-                  {t('withdraw')}
-                </TabsTrigger>
-              </TabsList>
+            <TabsContent value="accounts">
+              <Tabs value={activeAccountTab} className="space-y-6">
+                <TabsList className="grid w-full max-w-md mx-auto grid-cols-4">
+                  <TabsTrigger value="list" onClick={() => setActiveAccountTab("list")}>
+                    {t('overview')}
+                  </TabsTrigger>
+                  <TabsTrigger value="transfer" onClick={() => setActiveAccountTab("transfer")}>
+                    {t('transfer')}
+                  </TabsTrigger>
+                  <TabsTrigger value="new-account" onClick={() => setActiveAccountTab("new-account")}>
+                    {t('newAccount')}
+                  </TabsTrigger>
+                  <TabsTrigger value="withdraw" onClick={() => setActiveAccountTab("withdraw")}>
+                    {t('withdraw')}
+                  </TabsTrigger>
+                </TabsList>
 
-              <TabsContent value="list">
-                <AccountsList accounts={accounts} />
-              </TabsContent>
+                <TabsContent value="list">
+                  <AccountsList accounts={accounts} />
+                </TabsContent>
 
-              <TabsContent value="transfer">
-                <TransferMoney />
-              </TabsContent>
+                <TabsContent value="transfer">
+                  <TransferMoney />
+                </TabsContent>
 
-              <TabsContent value="new-account">
-                <NewAccount />
-              </TabsContent>
+                <TabsContent value="new-account">
+                  <NewAccount />
+                </TabsContent>
 
-              <TabsContent value="withdraw">
-                <WithdrawMoney accounts={accounts} />
-              </TabsContent>
-            </Tabs>
-          </TabsContent>
+                <TabsContent value="withdraw">
+                  <WithdrawMoney accounts={accounts} />
+                </TabsContent>
+              </Tabs>
+            </TabsContent>
 
-          <TabsContent value="mortgages">
-            <Mortgages />
-          </TabsContent>
+            <TabsContent value="mortgages">
+              <Mortgages />
+            </TabsContent>
 
-          <TabsContent value="profile">
-            <CustomerProfile />
-          </TabsContent>
-        </Tabs>
+            <TabsContent value="messages">
+              <Messages />
+            </TabsContent>
+
+            <TabsContent value="profile">
+              <CustomerProfile />
+            </TabsContent>
+          </Tabs>
+        </MessagesProvider>
       </main>
     </div>
   );
