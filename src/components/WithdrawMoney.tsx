@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import { useBanking } from "@/contexts/BankingContext";
+import { ArrowLeft } from "lucide-react";
 
 interface Account {
   id: number;
@@ -15,15 +16,20 @@ interface Account {
 
 interface WithdrawMoneyProps {
   accounts: Account[];
+  preSelectedAccount?: string;
+  onBack?: () => void;
 }
 
-const WithdrawMoney = ({ accounts }: WithdrawMoneyProps) => {
+const WithdrawMoney = ({ accounts, preSelectedAccount, onBack }: WithdrawMoneyProps) => {
   const { toast } = useToast();
+  const { accounts: contextAccounts } = useBanking();
   const [amount, setAmount] = useState("");
-  const [fromAccount, setFromAccount] = useState("");
+  const [fromAccount, setFromAccount] = useState(preSelectedAccount || "");
+
+  const availableAccounts = accounts.length > 0 ? accounts : contextAccounts;
 
   const handleWithdraw = () => {
-    const account = accounts.find(acc => acc.id.toString() === fromAccount);
+    const account = availableAccounts.find(acc => acc.id.toString() === fromAccount);
     
     if (!account) {
       toast({
@@ -57,11 +63,20 @@ const WithdrawMoney = ({ accounts }: WithdrawMoneyProps) => {
       title: "Withdrawal Successful",
       description: `$${amount} has been withdrawn successfully.`,
     });
+
+    if (onBack) onBack();
   };
 
   return (
     <Card className="p-6 max-w-md mx-auto">
-      <h2 className="text-xl font-semibold mb-4">Withdraw Money</h2>
+      <div className="flex items-center gap-4 mb-4">
+        {onBack && (
+          <Button variant="outline" size="icon" onClick={onBack}>
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        )}
+        <h2 className="text-xl font-semibold">Withdraw Money</h2>
+      </div>
       <div className="space-y-4">
         <div>
           <label className="block text-sm font-medium mb-1">From Account</label>
@@ -70,7 +85,7 @@ const WithdrawMoney = ({ accounts }: WithdrawMoneyProps) => {
               <SelectValue placeholder="Select account" />
             </SelectTrigger>
             <SelectContent>
-              {accounts.map((account) => (
+              {availableAccounts.map((account) => (
                 <SelectItem key={account.id} value={account.id.toString()}>
                   {account.type} - {account.accountNumber} (${account.balance.toFixed(2)})
                 </SelectItem>
