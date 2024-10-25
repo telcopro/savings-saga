@@ -20,27 +20,27 @@ interface MortgageContextType {
   mortgages: MortgageDetails[];
 }
 
-const MortgageContext = createContext<MortgageContextType>({
-  mortgages: [
-    {
-      id: "1",
-      propertyAddress: "123 Main Street, Anytown, USA",
-      propertyImage: "https://images.unsplash.com/photo-1518780664697-55e3ad937233",
-      totalAmount: 350000,
-      remainingBalance: 280000,
-      monthlyPayment: 1800,
-      nextPaymentDue: "2024-03-15",
-      isUpToDate: true,
-      paymentHistory: [
-        { dueDate: "2024-02-15", amount: 1800, status: 'paid' },
-        { dueDate: "2024-01-15", amount: 1800, status: 'paid' },
-      ]
-    }
-  ]
-});
+const defaultMortgages: MortgageDetails[] = [
+  {
+    id: "1",
+    propertyAddress: "123 Main Street, Anytown, USA",
+    propertyImage: "https://images.unsplash.com/photo-1518780664697-55e3ad937233",
+    totalAmount: 350000,
+    remainingBalance: 280000,
+    monthlyPayment: 1800,
+    nextPaymentDue: "2024-03-15",
+    isUpToDate: true,
+    paymentHistory: [
+      { dueDate: "2024-02-15", amount: 1800, status: 'paid' },
+      { dueDate: "2024-01-15", amount: 1800, status: 'paid' },
+    ]
+  }
+];
+
+const MortgageContext = createContext<MortgageContextType>({ mortgages: [] });
 
 export const MortgageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [mortgages] = useState(MortgageContext._currentValue.mortgages);
+  const [mortgages] = useState(defaultMortgages);
   
   return (
     <MortgageContext.Provider value={{ mortgages }}>

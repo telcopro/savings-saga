@@ -35,7 +35,7 @@ const Mortgages = () => {
             <div className="space-y-4">
               <div>
                 <h3 className="text-xl font-semibold">{mortgage.propertyAddress}</h3>
-                <Badge variant={mortgage.isUpToDate ? "success" : "destructive"}>
+                <Badge variant={mortgage.isUpToDate ? "secondary" : "destructive"}>
                   {mortgage.isUpToDate ? "Up to date" : "Payment required"}
                 </Badge>
               </div>
@@ -78,8 +78,8 @@ const Mortgages = () => {
                       <span>{format(parseISO(payment.dueDate), 'MMM d, yyyy')}</span>
                       <span>${payment.amount.toLocaleString()}</span>
                       <Badge variant={
-                        payment.status === 'paid' ? "success" : 
-                        payment.status === 'pending' ? "warning" : "destructive"
+                        payment.status === 'paid' ? "secondary" : 
+                        payment.status === 'pending' ? "outline" : "destructive"
                       }>
                         {payment.status}
                       </Badge>
