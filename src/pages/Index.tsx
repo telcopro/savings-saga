@@ -7,8 +7,9 @@ import TransferMoney from "@/components/TransferMoney";
 import NewAccount from "@/components/NewAccount";
 import WithdrawMoney from "@/components/WithdrawMoney";
 import CustomerProfile from "@/components/CustomerProfile";
+import Mortgages from "@/components/Mortgages";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Banknote, CreditCard, ArrowRight, Wallet, User } from "lucide-react";
+import { Banknote, CreditCard, ArrowRight, Wallet, User, Home } from "lucide-react";
 import { useBanking } from "@/contexts/BankingContext";
 
 const Index = () => {
@@ -26,7 +27,7 @@ const Index = () => {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs defaultValue="accounts" className="space-y-8">
-          <TabsList className="grid grid-cols-5 w-full max-w-2xl mx-auto">
+          <TabsList className="grid grid-cols-6 w-full max-w-2xl mx-auto">
             <TabsTrigger value="accounts" onClick={() => setActiveTab("accounts")}>
               <Banknote className="mr-2 h-4 w-4" />
               Accounts
@@ -42,6 +43,10 @@ const Index = () => {
             <TabsTrigger value="withdraw" onClick={() => setActiveTab("withdraw")}>
               <Wallet className="mr-2 h-4 w-4" />
               Withdraw
+            </TabsTrigger>
+            <TabsTrigger value="mortgages" onClick={() => setActiveTab("mortgages")}>
+              <Home className="mr-2 h-4 w-4" />
+              Mortgages
             </TabsTrigger>
             <TabsTrigger value="profile" onClick={() => setActiveTab("profile")}>
               <User className="mr-2 h-4 w-4" />
@@ -63,6 +68,10 @@ const Index = () => {
 
           <TabsContent value="withdraw">
             <WithdrawMoney accounts={accounts} />
+          </TabsContent>
+
+          <TabsContent value="mortgages">
+            <Mortgages />
           </TabsContent>
 
           <TabsContent value="profile">
