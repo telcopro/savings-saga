@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import { useBanking } from "@/contexts/BankingContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { ArrowLeft } from "lucide-react";
 
 interface TransferMoneyProps {
@@ -15,6 +16,7 @@ interface TransferMoneyProps {
 const TransferMoney = ({ preSelectedAccount, onBack }: TransferMoneyProps) => {
   const { toast } = useToast();
   const { accounts, transferMoney } = useBanking();
+  const { t } = useLanguage();
   const [amount, setAmount] = useState("");
   const [fromAccount, setFromAccount] = useState(preSelectedAccount || "");
   const [toAccount, setToAccount] = useState("");
@@ -22,8 +24,8 @@ const TransferMoney = ({ preSelectedAccount, onBack }: TransferMoneyProps) => {
   const handleTransfer = () => {
     if (!fromAccount || !toAccount || !amount) {
       toast({
-        title: "Invalid Transfer",
-        description: "Please fill in all fields",
+        title: t('invalidTransfer'),
+        description: t('fillAllFields'),
         variant: "destructive",
       });
       return;
@@ -31,8 +33,8 @@ const TransferMoney = ({ preSelectedAccount, onBack }: TransferMoneyProps) => {
 
     if (fromAccount === toAccount) {
       toast({
-        title: "Invalid Transfer",
-        description: "Cannot transfer to the same account",
+        title: t('invalidTransfer'),
+        description: t('sameAccountError'),
         variant: "destructive",
       });
       return;
@@ -41,8 +43,8 @@ const TransferMoney = ({ preSelectedAccount, onBack }: TransferMoneyProps) => {
     try {
       transferMoney(Number(fromAccount), Number(toAccount), Number(amount));
       toast({
-        title: "Transfer Successful",
-        description: `$${amount} has been transferred successfully.`,
+        title: t('transferSuccessful'),
+        description: t('transferSuccessMessage').replace('${amount}', `$${amount}`),
       });
       setAmount("");
       setFromAccount(preSelectedAccount || "");
@@ -50,8 +52,8 @@ const TransferMoney = ({ preSelectedAccount, onBack }: TransferMoneyProps) => {
       if (onBack) onBack();
     } catch (error) {
       toast({
-        title: "Transfer Failed",
-        description: error instanceof Error ? error.message : "An error occurred",
+        title: t('transferFailed'),
+        description: error instanceof Error ? error.message : t('insufficientFunds'),
         variant: "destructive",
       });
     }
@@ -65,14 +67,14 @@ const TransferMoney = ({ preSelectedAccount, onBack }: TransferMoneyProps) => {
             <ArrowLeft className="h-4 w-4" />
           </Button>
         )}
-        <h2 className="text-xl font-semibold">Transfer Money</h2>
+        <h2 className="text-xl font-semibold">{t('transferMoney')}</h2>
       </div>
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium mb-1">From Account</label>
+          <label className="block text-sm font-medium mb-1">{t('fromAccount')}</label>
           <Select value={fromAccount} onValueChange={setFromAccount}>
             <SelectTrigger>
-              <SelectValue placeholder="Select account" />
+              <SelectValue placeholder={t('selectAccount')} />
             </SelectTrigger>
             <SelectContent>
               {accounts.map((account) => (
@@ -85,10 +87,10 @@ const TransferMoney = ({ preSelectedAccount, onBack }: TransferMoneyProps) => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">To Account</label>
+          <label className="block text-sm font-medium mb-1">{t('toAccount')}</label>
           <Select value={toAccount} onValueChange={setToAccount}>
             <SelectTrigger>
-              <SelectValue placeholder="Select account" />
+              <SelectValue placeholder={t('selectAccount')} />
             </SelectTrigger>
             <SelectContent>
               {accounts.map((account) => (
@@ -101,10 +103,10 @@ const TransferMoney = ({ preSelectedAccount, onBack }: TransferMoneyProps) => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Amount</label>
+          <label className="block text-sm font-medium mb-1">{t('amount')}</label>
           <Input
             type="number"
-            placeholder="Enter amount"
+            placeholder={t('enterAmount')}
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             min="0"
@@ -117,7 +119,7 @@ const TransferMoney = ({ preSelectedAccount, onBack }: TransferMoneyProps) => {
           onClick={handleTransfer}
           disabled={!fromAccount || !toAccount || !amount || Number(amount) <= 0}
         >
-          Transfer Money
+          {t('transferMoney')}
         </Button>
       </div>
     </Card>
