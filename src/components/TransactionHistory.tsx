@@ -35,7 +35,7 @@ const TransactionHistory = ({ accountId, accountType, accountNumber, onBack }: T
           <ArrowLeft className="h-4 w-4" />
         </Button>
         <div className="flex-grow">
-          <h2 className="text-2xl font-semibold">{accountType} Account</h2>
+          <h2 className="text-2xl font-semibold">{accountType}</h2>
           <p className="text-sm text-gray-500">Account: {accountNumber}</p>
         </div>
         <div className="flex gap-2">
