@@ -13,15 +13,28 @@ const LanguageSelector = () => {
           variant={language === 'en' ? 'secondary' : 'ghost'}
           size="sm"
           onClick={() => setLanguage('en')}
+          className="flex items-center gap-1"
         >
+          <span className="mr-1">🇬🇧</span>
           EN
         </Button>
         <Button
           variant={language === 'sv' ? 'secondary' : 'ghost'}
           size="sm"
           onClick={() => setLanguage('sv')}
+          className="flex items-center gap-1"
         >
+          <span className="mr-1">🇸🇪</span>
           SV
+        </Button>
+        <Button
+          variant={language === 'de' ? 'secondary' : 'ghost'}
+          size="sm"
+          onClick={() => setLanguage('de')}
+          className="flex items-center gap-1"
+        >
+          <span className="mr-1">🇩🇪</span>
+          DE
         </Button>
       </div>
     </div>
