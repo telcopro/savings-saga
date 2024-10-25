@@ -4,29 +4,50 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
+import { useBanking } from "@/contexts/BankingContext";
 
-interface Account {
-  id: number;
-  type: string;
-  balance: number;
-  accountNumber: string;
-}
-
-interface TransferMoneyProps {
-  accounts: Account[];
-}
-
-const TransferMoney = ({ accounts }: TransferMoneyProps) => {
+const TransferMoney = () => {
   const { toast } = useToast();
+  const { accounts, transferMoney } = useBanking();
   const [amount, setAmount] = useState("");
   const [fromAccount, setFromAccount] = useState("");
   const [toAccount, setToAccount] = useState("");
 
   const handleTransfer = () => {
-    toast({
-      title: "Transfer Successful",
-      description: `$${amount} has been transferred successfully.`,
-    });
+    if (!fromAccount || !toAccount || !amount) {
+      toast({
+        title: "Invalid Transfer",
+        description: "Please fill in all fields",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (fromAccount === toAccount) {
+      toast({
+        title: "Invalid Transfer",
+        description: "Cannot transfer to the same account",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      transferMoney(Number(fromAccount), Number(toAccount), Number(amount));
+      toast({
+        title: "Transfer Successful",
+        description: `$${amount} has been transferred successfully.`,
+      });
+      setAmount("");
+      setFromAccount("");
+      setToAccount("");
+    } catch (error) {
+      toast({
+        title: "Transfer Failed",
+        description: error instanceof Error ? error.message : "An error occurred",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -35,14 +56,14 @@ const TransferMoney = ({ accounts }: TransferMoneyProps) => {
       <div className="space-y-4">
         <div>
           <label className="block text-sm font-medium mb-1">From Account</label>
-          <Select onValueChange={setFromAccount}>
+          <Select value={fromAccount} onValueChange={setFromAccount}>
             <SelectTrigger>
               <SelectValue placeholder="Select account" />
             </SelectTrigger>
             <SelectContent>
               {accounts.map((account) => (
                 <SelectItem key={account.id} value={account.id.toString()}>
-                  {account.type} - {account.accountNumber}
+                  {account.type} - {account.accountNumber} (${account.balance.toFixed(2)})
                 </SelectItem>
               ))}
             </SelectContent>
@@ -51,14 +72,14 @@ const TransferMoney = ({ accounts }: TransferMoneyProps) => {
 
         <div>
           <label className="block text-sm font-medium mb-1">To Account</label>
-          <Select onValueChange={setToAccount}>
+          <Select value={toAccount} onValueChange={setToAccount}>
             <SelectTrigger>
               <SelectValue placeholder="Select account" />
             </SelectTrigger>
             <SelectContent>
               {accounts.map((account) => (
                 <SelectItem key={account.id} value={account.id.toString()}>
-                  {account.type} - {account.accountNumber}
+                  {account.type} - {account.accountNumber} (${account.balance.toFixed(2)})
                 </SelectItem>
               ))}
             </SelectContent>
@@ -75,7 +96,11 @@ const TransferMoney = ({ accounts }: TransferMoneyProps) => {
           />
         </div>
 
-        <Button className="w-full" onClick={handleTransfer}>
+        <Button 
+          className="w-full" 
+          onClick={handleTransfer}
+          disabled={!fromAccount || !toAccount || !amount}
+        >
           Transfer Money
         </Button>
       </div>

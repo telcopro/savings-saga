@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { createContext, useContext, useState } from "react";
+import { BankingProvider } from "./contexts/BankingContext";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 
@@ -36,22 +37,24 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route 
-                path="/login" 
-                element={isAuthenticated ? <Navigate to="/" /> : <Login />} 
-              />
-              <Route 
-                path="/" 
-                element={isAuthenticated ? <Index /> : <Navigate to="/login" />} 
-              />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
+        <BankingProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                <Route 
+                  path="/login" 
+                  element={isAuthenticated ? <Navigate to="/" /> : <Login />} 
+                />
+                <Route 
+                  path="/" 
+                  element={isAuthenticated ? <Index /> : <Navigate to="/login" />} 
+                />
+              </Routes>
+            </BrowserRouter>
+          </TooltipProvider>
+        </BankingProvider>
       </AuthContext.Provider>
     </QueryClientProvider>
   );
