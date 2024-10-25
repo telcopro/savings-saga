@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import TransactionHistory from "./TransactionHistory";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Account {
   id: number;
@@ -15,12 +16,13 @@ interface AccountsListProps {
 
 const AccountsList = ({ accounts }: AccountsListProps) => {
   const [selectedAccount, setSelectedAccount] = useState<Account | null>(null);
+  const { t } = useLanguage();
 
   if (selectedAccount) {
     return (
       <TransactionHistory
         accountId={selectedAccount.id}
-        accountType={selectedAccount.type}
+        accountType={selectedAccount.type === "Savings" ? t('savingsAccount') : t('checkingAccount')}
         accountNumber={selectedAccount.accountNumber}
         onBack={() => setSelectedAccount(null)}
       />
@@ -35,7 +37,9 @@ const AccountsList = ({ accounts }: AccountsListProps) => {
           className="p-6 cursor-pointer hover:shadow-lg transition-shadow"
           onClick={() => setSelectedAccount(account)}
         >
-          <h3 className="text-lg font-semibold">{account.type} Account</h3>
+          <h3 className="text-lg font-semibold">
+            {account.type === "Savings" ? t('savingsAccount') : t('checkingAccount')}
+          </h3>
           <p className="text-sm text-gray-500">Account: {account.accountNumber}</p>
           <p className="text-2xl font-bold mt-2">
             ${account.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
