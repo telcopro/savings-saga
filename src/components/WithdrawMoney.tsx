@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import { useBanking } from "@/contexts/BankingContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { ArrowLeft } from "lucide-react";
 
 interface Account {
@@ -23,6 +24,7 @@ interface WithdrawMoneyProps {
 const WithdrawMoney = ({ accounts, preSelectedAccount, onBack }: WithdrawMoneyProps) => {
   const { toast } = useToast();
   const { accounts: contextAccounts } = useBanking();
+  const { t } = useLanguage();
   const [amount, setAmount] = useState("");
   const [fromAccount, setFromAccount] = useState(preSelectedAccount || "");
 
@@ -75,19 +77,19 @@ const WithdrawMoney = ({ accounts, preSelectedAccount, onBack }: WithdrawMoneyPr
             <ArrowLeft className="h-4 w-4" />
           </Button>
         )}
-        <h2 className="text-xl font-semibold">Withdraw Money</h2>
+        <h2 className="text-xl font-semibold">{t('withdrawMoney')}</h2>
       </div>
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium mb-1">From Account</label>
+          <label className="block text-sm font-medium mb-1">{t('fromAccount')}</label>
           <Select value={fromAccount} onValueChange={setFromAccount}>
             <SelectTrigger>
-              <SelectValue placeholder="Select account" />
+              <SelectValue placeholder={t('selectAccount')} />
             </SelectTrigger>
             <SelectContent>
               {availableAccounts.map((account) => (
                 <SelectItem key={account.id} value={account.id.toString()}>
-                  {account.type} - {account.accountNumber} (${account.balance.toFixed(2)})
+                  {t(account.type === "Savings" ? 'savingsAccount' : 'checkingAccount')} - {account.accountNumber} (${account.balance.toFixed(2)})
                 </SelectItem>
               ))}
             </SelectContent>
@@ -95,10 +97,10 @@ const WithdrawMoney = ({ accounts, preSelectedAccount, onBack }: WithdrawMoneyPr
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Amount</label>
+          <label className="block text-sm font-medium mb-1">{t('amount')}</label>
           <Input
             type="number"
-            placeholder="Enter amount"
+            placeholder={t('enterAmount')}
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             min="0"
@@ -111,7 +113,7 @@ const WithdrawMoney = ({ accounts, preSelectedAccount, onBack }: WithdrawMoneyPr
           onClick={handleWithdraw}
           disabled={!fromAccount || !amount || Number(amount) <= 0}
         >
-          Withdraw Money
+          {t('withdrawMoney')}
         </Button>
       </div>
     </Card>
