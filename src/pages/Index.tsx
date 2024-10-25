@@ -9,16 +9,12 @@ import WithdrawMoney from "@/components/WithdrawMoney";
 import CustomerProfile from "@/components/CustomerProfile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Banknote, CreditCard, ArrowRight, Wallet, User } from "lucide-react";
+import { useBanking } from "@/contexts/BankingContext";
 
 const Index = () => {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("accounts");
-
-  // Mock data - in real app, this would come from an API
-  const accounts = [
-    { id: 1, type: "Savings", balance: 5000.00, accountNumber: "****1234" },
-    { id: 2, type: "Checking", balance: 2500.50, accountNumber: "****5678" }
-  ];
+  const { accounts } = useBanking();
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -58,7 +54,7 @@ const Index = () => {
           </TabsContent>
 
           <TabsContent value="transfer">
-            <TransferMoney accounts={accounts} />
+            <TransferMoney />
           </TabsContent>
 
           <TabsContent value="new-account">
