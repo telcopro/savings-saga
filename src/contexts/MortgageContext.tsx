@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 interface MortgageDetails {
   id: string;
@@ -40,10 +40,12 @@ const MortgageContext = createContext<MortgageContextType>({
 });
 
 export const MortgageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [mortgages] = useState(MortgageContext._currentValue.mortgages);
+  
   return (
-    <MortgageContext.Provider value={{ mortgages: MortgageContext._currentValue.mortgages }}>
+    <MortgageContext.Provider value={{ mortgages }}>
       {children}
-    </MortgageProvider>
+    </MortgageContext.Provider>
   );
 };
 
