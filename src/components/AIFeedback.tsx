@@ -63,7 +63,7 @@ ${recentTransactions.map(t =>
         <div className="space-y-4">
           <div className="p-4 bg-muted rounded-lg">
             <h3 className="font-medium mb-2">Complete Prompt:</h3>
-            <pre className="whitespace-pre-wrap text-sm">{fullPrompt}</pre>
+            <pre className="whitespace-pre-wrap text-sm overflow-auto max-h-[400px]">{fullPrompt}</pre>
           </div>
           <div className="p-4 bg-primary/5 rounded-lg">
             <h3 className="font-medium mb-2">AI Response:</h3>
