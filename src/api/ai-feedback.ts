@@ -2,7 +2,7 @@ import OpenAI from "openai";
 import { toast } from "@/components/ui/use-toast";
 
 const openai = new OpenAI({
-  apiKey: "your-api-key-here", // Replace with your actual OpenAI API key
+  apiKey: "sk_placeholder_replace_with_actual_key", // Replace with your actual OpenAI API key
   dangerouslyAllowBrowser: true // Note: In production, API calls should be made from backend
 });
 
