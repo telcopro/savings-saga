@@ -55,10 +55,6 @@ const Index = () => {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <AIFeedback />
-        </div>
-
         <MessagesProvider>
           <Tabs defaultValue="accounts" className="space-y-8">
             <TabsList className="grid w-full max-w-md mx-auto grid-cols-4">
@@ -98,7 +94,10 @@ const Index = () => {
                 </TabsList>
 
                 <TabsContent value="list">
-                  <AccountsList accounts={accounts} />
+                  <div className="space-y-6">
+                    <AIFeedback />
+                    <AccountsList accounts={accounts} />
+                  </div>
                 </TabsContent>
 
                 <TabsContent value="transfer">
