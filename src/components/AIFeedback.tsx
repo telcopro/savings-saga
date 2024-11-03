@@ -29,7 +29,7 @@ const AIFeedback = () => {
           style: 'currency',
           currency: 'USD'
         });
-        return `${t.date}: ${t.type === 'credit' ? 'Received' : 'Spent'} ${formattedAmount} - ${t.description}`;
+        return `- ${t.date}: ${t.type === 'credit' ? 'Received' : 'Spent'} ${formattedAmount} - ${t.description}`;
       })
       .join('\n');
 
@@ -82,7 +82,7 @@ ${transactionsText}`;
         <div className="space-y-4">
           <div className="p-4 bg-muted rounded-lg">
             <h3 className="font-medium mb-2">Complete Analysis Data:</h3>
-            <pre className="whitespace-pre-wrap text-sm overflow-auto max-h-[400px] bg-muted p-2 rounded">
+            <pre className="whitespace-pre-wrap text-sm overflow-auto max-h-[400px] bg-muted p-2 rounded font-mono">
               {fullPrompt}
             </pre>
           </div>
