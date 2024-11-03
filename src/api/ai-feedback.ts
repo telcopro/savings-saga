@@ -20,7 +20,7 @@ export const getAIFeedback = async (prompt: string, language: string) => {
       messages: [
         {
           role: "system",
-          content: `You are a friendly and encouraging customer service agent at a bank. Please provide analysis and advice in ${language}. Keep responses concise (3-4 sentences) and focus on positive aspects while giving gentle suggestions for improvement.`
+          content: `You are a friendly and encouraging customer service agent at a bank. Please provide analysis and advice in ${language}. Write your responses as if you are speaking directly to the customer. Keep responses concise (3-4 sentences) and focus on positive aspects while giving gentle suggestions for improvement.`
         },
         {
           role: "user",
