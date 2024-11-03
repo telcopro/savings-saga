@@ -13,9 +13,10 @@ import Messages from "@/components/Messages";
 import AIFeedback from "@/components/AIFeedback";
 import { MessagesProvider } from "@/contexts/MessagesContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Banknote, ArrowRight, CreditCard, Wallet, User, Home, MessageSquare } from "lucide-react";
+import { Banknote, ArrowRight, CreditCard, Wallet, User, Home, MessageSquare, LogOut } from "lucide-react";
 import { useBanking } from "@/contexts/BankingContext";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/App";
 
 const Index = () => {
   const { toast } = useToast();
@@ -23,13 +24,33 @@ const Index = () => {
   const [activeAccountTab, setActiveAccountTab] = useState("list");
   const { accounts } = useBanking();
   const { t } = useLanguage();
+  const { logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    toast({
+      title: "Logged out",
+      description: "You have been successfully logged out",
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-gray-900">{t('welcome')}</h1>
-          <LanguageSelector />
+          <div className="flex items-center gap-4">
+            <LanguageSelector />
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={handleLogout}
+              className="flex items-center gap-2"
+            >
+              <LogOut className="h-4 w-4" />
+              Logout
+            </Button>
+          </div>
         </div>
       </header>
 
