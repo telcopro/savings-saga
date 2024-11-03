@@ -34,7 +34,7 @@ const AIFeedback = () => {
       })
       .join('\n');
 
-    return `Please analyze this customer's financial situation:
+    const prompt = `Please analyze this customer's financial situation:
 
 Total Balance Across Accounts: ${totalBalance.toLocaleString('en-US', {
   style: 'currency',
@@ -52,6 +52,8 @@ ${accounts.map(acc =>
 
 Transactions from Past 3 Months:
 ${transactionsText}`;
+
+    return prompt;
   };
 
   const getFeedback = async () => {
