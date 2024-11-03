@@ -14,6 +14,7 @@ export default {
   invalidInputMessage: "Vänligen fyll i alla fält korrekt",
   accountCreated: "Konto skapat",
   accountCreatedMessage: "Ditt nya konto har skapats",
+  selectAccountType: "Välj kontotyp",
   savingsAccount: "Sparkonto",
   checkingAccount: "Checkkonto",
   enterInitialDeposit: "Ange initial insättning",

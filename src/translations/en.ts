@@ -14,6 +14,7 @@ export default {
   invalidInputMessage: "Please fill in all fields correctly",
   accountCreated: "Account Created",
   accountCreatedMessage: "Your new account has been created successfully",
+  selectAccountType: "Select account type",
   savingsAccount: "Savings Account",
   checkingAccount: "Checking Account",
   enterInitialDeposit: "Enter initial deposit amount",

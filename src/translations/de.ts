@@ -14,6 +14,7 @@ export default {
   invalidInputMessage: "Bitte füllen Sie alle Felder korrekt aus",
   accountCreated: "Konto erstellt",
   accountCreatedMessage: "Ihr neues Konto wurde erfolgreich erstellt",
+  selectAccountType: "Kontotyp auswählen",
   savingsAccount: "Sparkonto",
   checkingAccount: "Girokonto",
   enterInitialDeposit: "Ersteinzahlung eingeben",
