@@ -33,7 +33,7 @@ const AIFeedback = () => {
       })
       .join('\n');
 
-    const prompt = `Please analyze this customer's financial situation:
+    return `Please analyze this customer's financial situation:
 
 Total Balance Across Accounts: ${totalBalance.toLocaleString('en-US', {
   style: 'currency',
@@ -51,16 +51,12 @@ ${accounts.map(acc =>
 
 Recent Transactions:
 ${transactionsText}`;
-
-    return prompt;
   };
 
   const getFeedback = async () => {
     setLoading(true);
     try {
       const generatedPrompt = generatePrompt();
-      console.log('Generated Prompt:', generatedPrompt);
-      console.log('Transactions:', transactions);
       const data = await getAIFeedback(generatedPrompt, language);
       setFeedback(data.feedback);
       setFullPrompt(data.fullPrompt);
