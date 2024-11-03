@@ -34,11 +34,17 @@ export const getAIFeedback = async (prompt: string, language: string) => {
     return {
       feedback: completion.choices[0].message.content || "No feedback available."
     };
-  } catch (error) {
-    if (error instanceof Error && error.message.includes("API key not found")) {
+  } catch (error: any) {
+    if (error.message.includes("API key not found")) {
       toast({
         title: "API Key Missing",
         description: "Please set your OpenAI API key in the admin page",
+        variant: "destructive",
+      });
+    } else if (error.status === 429 || (error.error?.type === "insufficient_quota")) {
+      toast({
+        title: "API Quota Exceeded",
+        description: "Your OpenAI API key has exceeded its quota. Please check your billing details or use a different key.",
         variant: "destructive",
       });
     } else {
