@@ -41,9 +41,9 @@ const AIFeedback = () => {
     return `Please analyze this customer's financial situation:
 
 Total Balance Across Accounts: ${totalBalance.toLocaleString('en-US', {
-  style: 'currency',
-  currency: 'USD'
-})}
+      style: 'currency',
+      currency: 'USD'
+    })}
 
 Number of Accounts: ${accounts.length}
 
@@ -63,6 +63,7 @@ ${transactionsText}`;
     setLoading(true);
     try {
       const generatedPrompt = generatePrompt();
+      console.log("Generated Prompt:", generatedPrompt); // Log the prompt
       const data = await getAIFeedback(generatedPrompt, language);
       setFeedback(data.feedback);
       setFullPrompt(data.fullPrompt);
