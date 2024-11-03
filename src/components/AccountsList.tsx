@@ -6,6 +6,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 interface Account {
   id: number;
   type: string;
+  name: string;
   balance: number;
   accountNumber: string;
 }
@@ -38,9 +39,11 @@ const AccountsList = ({ accounts }: AccountsListProps) => {
           onClick={() => setSelectedAccount(account)}
         >
           <h3 className="text-lg font-semibold">
-            {account.type === "Savings" ? t('savingsAccount') : t('checkingAccount')}
+            {account.name}
           </h3>
-          <p className="text-sm text-gray-500">Account: {account.accountNumber}</p>
+          <p className="text-sm text-gray-500">
+            {account.type === "Savings" ? t('savingsAccount') : t('checkingAccount')} - {account.accountNumber}
+          </p>
           <p className="text-2xl font-bold mt-2">
             ${account.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
           </p>

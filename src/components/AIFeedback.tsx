@@ -50,7 +50,7 @@ Number of Accounts: ${accounts.length}
 
 Account Details:
 ${accounts.map(acc => 
-  `- ${acc.type}: ${acc.balance.toLocaleString('en-US', {
+  `- ${acc.name} (${acc.type}): ${acc.balance.toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD'
   })}`
