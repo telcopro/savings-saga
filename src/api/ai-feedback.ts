@@ -15,12 +15,14 @@ const getOpenAIInstance = () => {
 export const getAIFeedback = async (prompt: string, language: string) => {
   try {
     const openai = getOpenAIInstance();
+    const systemPrompt = `You are a friendly and encouraging customer service agent at a bank. Please provide analysis and advice in ${language}. Write your responses as if you are speaking directly to the customer. Keep responses concise (3-4 sentences) and focus on positive aspects while giving gentle suggestions for improvement.`;
+    
     const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
         {
           role: "system",
-          content: `You are a friendly and encouraging customer service agent at a bank. Please provide analysis and advice in ${language}. Write your responses as if you are speaking directly to the customer. Keep responses concise (3-4 sentences) and focus on positive aspects while giving gentle suggestions for improvement.`
+          content: systemPrompt
         },
         {
           role: "user",
@@ -32,7 +34,8 @@ export const getAIFeedback = async (prompt: string, language: string) => {
     });
 
     return {
-      feedback: completion.choices[0].message.content || "No feedback available."
+      feedback: completion.choices[0].message.content || "No feedback available.",
+      fullPrompt: `System Instructions:\n${systemPrompt}\n\nUser Data:\n${prompt}`
     };
   } catch (error: any) {
     if (error.message.includes("API key not found")) {
