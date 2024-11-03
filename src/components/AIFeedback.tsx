@@ -50,10 +50,10 @@ ${accounts.map(acc =>
   })}`
 ).join('\n')}
 
-Transactions from Past 3 Months:
+Recent Transactions:
 ${transactionsText}`;
 
-    console.log('Generated Prompt:', prompt); // Debug log
+    console.log('Generated Prompt:', prompt);
     return prompt;
   };
 
@@ -61,7 +61,7 @@ ${transactionsText}`;
     setLoading(true);
     try {
       const generatedPrompt = generatePrompt();
-      console.log('Transactions:', transactions); // Debug log
+      console.log('Transactions:', transactions);
       const data = await getAIFeedback(generatedPrompt, language);
       setFeedback(data.feedback);
       setFullPrompt(data.fullPrompt);
