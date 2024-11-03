@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 import { Account, Transaction } from "../types/banking";
-import { initialAccounts, initialTransactions } from "../data/initialBankingData";
+import { initialAccounts } from "../data/accounts";
+import { initialTransactions } from "../data/transactions";
 import {
   validateTransfer,
   validateWithdrawal,
