@@ -11,6 +11,7 @@ import { ArrowLeft } from "lucide-react";
 interface Account {
   id: number;
   type: string;
+  name: string;
   balance: number;
   accountNumber: string;
 }
@@ -94,7 +95,7 @@ const WithdrawMoney = ({ accounts, preSelectedAccount, onBack }: WithdrawMoneyPr
             <SelectContent>
               {availableAccounts.map((account) => (
                 <SelectItem key={account.id} value={account.id.toString()}>
-                  {t(account.type === "Savings" ? 'savingsAccount' : 'checkingAccount')} - {account.accountNumber} (${account.balance.toFixed(2)})
+                  {account.name} - {t(account.type === "Savings" ? 'savingsAccount' : 'checkingAccount')} ({account.accountNumber}) - ${account.balance.toFixed(2)}
                 </SelectItem>
               ))}
             </SelectContent>

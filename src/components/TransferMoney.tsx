@@ -81,7 +81,7 @@ const TransferMoney = ({ preSelectedAccount, onBack }: TransferMoneyProps) => {
             <SelectContent>
               {accounts.map((account) => (
                 <SelectItem key={account.id} value={account.id.toString()}>
-                  {t(account.type === "Savings" ? 'savingsAccount' : 'checkingAccount')} - {account.accountNumber} (${account.balance.toFixed(2)})
+                  {account.name} - {t(account.type === "Savings" ? 'savingsAccount' : 'checkingAccount')} ({account.accountNumber}) - ${account.balance.toFixed(2)}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -97,7 +97,7 @@ const TransferMoney = ({ preSelectedAccount, onBack }: TransferMoneyProps) => {
             <SelectContent>
               {accounts.map((account) => (
                 <SelectItem key={account.id} value={account.id.toString()}>
-                  {t(account.type === "Savings" ? 'savingsAccount' : 'checkingAccount')} - {account.accountNumber} (${account.balance.toFixed(2)})
+                  {account.name} - {t(account.type === "Savings" ? 'savingsAccount' : 'checkingAccount')} ({account.accountNumber}) - ${account.balance.toFixed(2)}
                 </SelectItem>
               ))}
             </SelectContent>
