@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { Key } from "lucide-react";
+import { Link } from "react-router-dom"; // Import Link for navigation
 
 const Admin = () => {
   const [apiKey, setApiKey] = useState("");
@@ -53,6 +54,12 @@ const Admin = () => {
             Save API Key
           </Button>
         </form>
+
+        <div className="mt-4">
+          <Link to="/login" className="text-blue-600 hover:underline">
+            Back
+          </Link>
+        </div>
       </Card>
     </div>
   );
