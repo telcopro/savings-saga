@@ -81,5 +81,9 @@ export const en = {
   sendReply: "Send Reply",
   writeReply: "Write your reply...",
   messageSent: "Message Sent",
-  messageSentDescription: "Your message has been sent successfully."
+  messageSentDescription: "Your message has been sent successfully.",
+  aiFinancialFeedback: "AI Financial Insights",
+  getFeedback: "Get Personalized Feedback",
+  getNewFeedback: "Get New Feedback",
+  generatingFeedback: "Generating Feedback...",
 };

@@ -10,6 +10,7 @@ import CustomerProfile from "@/components/CustomerProfile";
 import Mortgages from "@/components/Mortgages";
 import LanguageSelector from "@/components/LanguageSelector";
 import Messages from "@/components/Messages";
+import AIFeedback from "@/components/AIFeedback";
 import { MessagesProvider } from "@/contexts/MessagesContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Banknote, ArrowRight, CreditCard, Wallet, User, Home, MessageSquare } from "lucide-react";
@@ -33,6 +34,10 @@ const Index = () => {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8">
+          <AIFeedback />
+        </div>
+
         <MessagesProvider>
           <Tabs defaultValue="accounts" className="space-y-8">
             <TabsList className="grid w-full max-w-md mx-auto grid-cols-4">
