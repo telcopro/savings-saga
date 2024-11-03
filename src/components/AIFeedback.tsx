@@ -20,18 +20,23 @@ const AIFeedback = () => {
     threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
     
     const recentTransactions = transactions
-      .filter(t => new Date(t.date) >= threeMonthsAgo)
+      .filter(t => {
+        const transactionDate = new Date(t.date);
+        return transactionDate >= threeMonthsAgo;
+      })
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-    const transactionsText = recentTransactions
-      .map(t => {
-        const formattedAmount = t.amount.toLocaleString('en-US', {
-          style: 'currency',
-          currency: 'USD'
-        });
-        return `- ${t.date}: ${t.type === 'credit' ? 'Received' : 'Spent'} ${formattedAmount} (${t.description})`;
-      })
-      .join('\n');
+    const transactionsText = recentTransactions.length > 0 
+      ? recentTransactions
+          .map(t => {
+            const formattedAmount = t.amount.toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'USD'
+            });
+            return `- ${t.date}: ${t.type === 'credit' ? 'Received' : 'Spent'} ${formattedAmount} (${t.description})`;
+          })
+          .join('\n')
+      : "No recent transactions";
 
     return `Please analyze this customer's financial situation:
 
