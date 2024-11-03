@@ -15,7 +15,13 @@ const getOpenAIInstance = () => {
 export const getAIFeedback = async (prompt: string, language: string) => {
   try {
     const openai = getOpenAIInstance();
-    const systemPrompt = `You are a friendly and encouraging customer service agent at a bank. Please provide analysis and advice in ${language}. Write your responses as if you are speaking directly to the customer. Keep responses concise (3-4 sentences) and focus on positive aspects while giving gentle suggestions for improvement.`;
+    const languageMap: Record<string, string> = {
+      'en': 'English',
+      'sv': 'Swedish',
+      'de': 'German'
+    };
+    
+    const systemPrompt = `You are a friendly and encouraging customer service agent at a bank. Please provide analysis and advice in ${languageMap[language] || 'English'}. Write your responses as if you are speaking directly to the customer. Keep responses concise (3-4 sentences) and focus on positive aspects while giving gentle suggestions for improvement.`;
     
     const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
