@@ -24,18 +24,34 @@ const AIFeedback = () => {
       .filter(t => new Date(t.date) >= threeMonthsAgo)
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
+    const transactionsText = recentTransactions
+      .map(t => {
+        const formattedAmount = t.amount.toLocaleString('en-US', {
+          style: 'currency',
+          currency: 'USD'
+        });
+        return `${t.date}: ${t.type === 'credit' ? 'Received' : 'Spent'} ${formattedAmount} - ${t.description}`;
+      })
+      .join('\n');
+
     return `Please analyze this customer's financial situation:
 
-Total Balance Across Accounts: $${totalBalance}
+Total Balance Across Accounts: ${totalBalance.toLocaleString('en-US', {
+  style: 'currency',
+  currency: 'USD'
+})}
 Number of Accounts: ${accounts.length}
 
 Account Details:
-${accounts.map(acc => `- ${acc.name} (${acc.type}): $${acc.balance}`).join('\n')}
+${accounts.map(acc => 
+  `- ${acc.name} (${acc.type}): ${acc.balance.toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD'
+  })}`
+).join('\n')}
 
-All Transactions from Past 3 Months:
-${recentTransactions.map(t => 
-  `- ${t.date}: ${t.type === 'credit' ? 'Received' : 'Spent'} $${t.amount} - ${t.description}`
-).join('\n')}`;
+Transactions from Past 3 Months:
+${transactionsText}`;
   };
 
   const getFeedback = async () => {
