@@ -11,6 +11,7 @@ interface Transaction {
 
 interface Account {
   id: number;
+  name: string;
   type: string;
   balance: number;
   accountNumber: string;
@@ -21,15 +22,15 @@ interface BankingContextType {
   transactions: Transaction[];
   transferMoney: (fromAccountId: number, toAccountId: number, amount: number) => void;
   getAccountTransactions: (accountId: number) => Transaction[];
-  addAccount: (type: string, initialDeposit: number) => void;
+  addAccount: (type: string, initialDeposit: number, name: string) => void;
 }
 
 const BankingContext = createContext<BankingContextType | undefined>(undefined);
 
 export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [accounts, setAccounts] = useState<Account[]>([
-    { id: 1, type: "Savings", balance: 5000.00, accountNumber: "****1234" },
-    { id: 2, type: "Checking", balance: 2500.50, accountNumber: "****5678" }
+    { id: 1, name: "Main Savings", type: "Savings", balance: 5000.00, accountNumber: "****1234" },
+    { id: 2, name: "Daily Expenses", type: "Checking", balance: 2500.50, accountNumber: "****5678" }
   ]);
 
   const [transactions, setTransactions] = useState<Transaction[]>([
@@ -51,12 +52,13 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }
   ]);
 
-  const addAccount = (type: string, initialDeposit: number) => {
+  const addAccount = (type: string, initialDeposit: number, name: string) => {
     const newId = Math.max(...accounts.map(acc => acc.id), 0) + 1;
     const accountNumber = Math.random().toString().slice(2, 6);
     
     const newAccount: Account = {
       id: newId,
+      name,
       type,
       balance: initialDeposit,
       accountNumber: `****${accountNumber}`
@@ -64,7 +66,6 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
     setAccounts([...accounts, newAccount]);
 
-    // Create initial deposit transaction
     const newTransaction: Transaction = {
       id: Date.now(),
       date: new Date().toISOString().split('T')[0],

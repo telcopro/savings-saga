@@ -3,7 +3,6 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Loader2, MessageSquare } from "lucide-react";
 import { useBanking } from "@/contexts/BankingContext";
-import { useMortgage } from "@/contexts/MortgageContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { getAIFeedback } from "@/api/ai-feedback";
 
@@ -12,22 +11,18 @@ const AIFeedback = () => {
   const [fullPrompt, setFullPrompt] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const { accounts, transactions } = useBanking();
-  const { mortgages } = useMortgage();
   const { t, language } = useLanguage();
 
   const generatePrompt = () => {
     const totalBalance = accounts.reduce((sum, acc) => sum + acc.balance, 0);
-    const mortgageBalance = mortgages.reduce((sum, m) => sum + m.remainingBalance, 0);
     
     return `Please analyze this customer's financial situation:
 
 Total Balance Across Accounts: $${totalBalance}
 Number of Accounts: ${accounts.length}
-Mortgage Balance: $${mortgageBalance}
-Number of Mortgages: ${mortgages.length}
 
 Account Details:
-${accounts.map(acc => `- ${acc.type} Account: $${acc.balance}`).join('\n')}
+${accounts.map(acc => `- ${acc.name} (${acc.type}): $${acc.balance}`).join('\n')}
 
 Recent Transactions:
 ${transactions.slice(0, 5).map(t => 

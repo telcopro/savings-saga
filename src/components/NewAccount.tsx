@@ -12,10 +12,11 @@ const NewAccount = () => {
   const { addAccount } = useBanking();
   const { t } = useLanguage();
   const [accountType, setAccountType] = useState("");
+  const [accountName, setAccountName] = useState("");
   const [initialDeposit, setInitialDeposit] = useState("");
 
   const handleCreateAccount = () => {
-    if (!accountType || !initialDeposit || Number(initialDeposit) <= 0) {
+    if (!accountType || !initialDeposit || Number(initialDeposit) <= 0 || !accountName.trim()) {
       toast({
         title: t('invalidInput'),
         description: t('invalidInputMessage'),
@@ -24,7 +25,7 @@ const NewAccount = () => {
       return;
     }
 
-    addAccount(accountType, Number(initialDeposit));
+    addAccount(accountType, Number(initialDeposit), accountName.trim());
     
     toast({
       title: t('accountCreated'),
@@ -32,6 +33,7 @@ const NewAccount = () => {
     });
 
     setAccountType("");
+    setAccountName("");
     setInitialDeposit("");
   };
 
@@ -39,6 +41,16 @@ const NewAccount = () => {
     <Card className="p-6 max-w-md mx-auto">
       <h2 className="text-xl font-semibold mb-4">{t('newAccount')}</h2>
       <div className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium mb-1">{t('accountName')}</label>
+          <Input
+            type="text"
+            placeholder={t('enterAccountName')}
+            value={accountName}
+            onChange={(e) => setAccountName(e.target.value)}
+          />
+        </div>
+
         <div>
           <label className="block text-sm font-medium mb-1">{t('accountType')}</label>
           <Select value={accountType} onValueChange={setAccountType}>
@@ -67,7 +79,7 @@ const NewAccount = () => {
         <Button 
           className="w-full" 
           onClick={handleCreateAccount}
-          disabled={!accountType || !initialDeposit || Number(initialDeposit) <= 0}
+          disabled={!accountType || !accountName.trim() || !initialDeposit || Number(initialDeposit) <= 0}
         >
           {t('createAccount')}
         </Button>
