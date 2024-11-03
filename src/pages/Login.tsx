@@ -5,6 +5,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Shield, Smartphone } from "lucide-react";
 import { useAuth } from "../App";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { Link } from "react-router-dom"; // Import Link for navigation
 
 const Login = () => {
   const { toast } = useToast();
@@ -64,6 +65,11 @@ const Login = () => {
           </div>
           <p className="text-sm text-gray-500 text-center">
             {t('bankIDInstallNote')}
+          </p>
+          <p className="text-sm text-center">
+            <Link to="/admin" className="text-blue-600 hover:underline">
+              Go to Admin Settings
+            </Link>
           </p>
         </div>
       </Card>
