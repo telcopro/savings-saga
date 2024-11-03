@@ -21,6 +21,7 @@ interface BankingContextType {
   accounts: Account[];
   transactions: Transaction[];
   transferMoney: (fromAccountId: number, toAccountId: number, amount: number) => void;
+  withdrawMoney: (accountId: number, amount: number) => void;
   getAccountTransactions: (accountId: number) => Transaction[];
   addAccount: (type: string, initialDeposit: number, name: string) => void;
 }
@@ -51,6 +52,37 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       accountId: 1
     }
   ]);
+
+  const withdrawMoney = (accountId: number, amount: number) => {
+    const account = accounts.find(acc => acc.id === accountId);
+    if (!account) {
+      throw new Error("Account not found");
+    }
+
+    if (account.balance < amount) {
+      throw new Error("Insufficient funds");
+    }
+
+    // Update account balance
+    setAccounts(accounts.map(acc => {
+      if (acc.id === accountId) {
+        return { ...acc, balance: acc.balance - amount };
+      }
+      return acc;
+    }));
+
+    // Create withdrawal transaction
+    const newTransaction: Transaction = {
+      id: Date.now(),
+      date: new Date().toISOString().split('T')[0],
+      description: "ATM Withdrawal",
+      amount: amount,
+      type: "debit",
+      accountId: accountId
+    };
+
+    setTransactions([...transactions, newTransaction]);
+  };
 
   const addAccount = (type: string, initialDeposit: number, name: string) => {
     const newId = Math.max(...accounts.map(acc => acc.id), 0) + 1;
@@ -137,6 +169,7 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       accounts, 
       transactions, 
       transferMoney,
+      withdrawMoney,
       getAccountTransactions,
       addAccount
     }}>

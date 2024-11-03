@@ -23,7 +23,7 @@ interface WithdrawMoneyProps {
 
 const WithdrawMoney = ({ accounts, preSelectedAccount, onBack }: WithdrawMoneyProps) => {
   const { toast } = useToast();
-  const { accounts: contextAccounts } = useBanking();
+  const { accounts: contextAccounts, withdrawMoney } = useBanking();
   const { t } = useLanguage();
   const [amount, setAmount] = useState("");
   const [fromAccount, setFromAccount] = useState(preSelectedAccount || "");
@@ -52,21 +52,24 @@ const WithdrawMoney = ({ accounts, preSelectedAccount, onBack }: WithdrawMoneyPr
       return;
     }
 
-    if (account.balance < withdrawAmount) {
+    try {
+      withdrawMoney(account.id, withdrawAmount);
+      
+      toast({
+        title: "Withdrawal Successful",
+        description: `$${amount} has been withdrawn successfully.`,
+      });
+
+      setAmount("");
+      setFromAccount(preSelectedAccount || "");
+      if (onBack) onBack();
+    } catch (error) {
       toast({
         title: "Error",
-        description: "Insufficient funds",
+        description: error instanceof Error ? error.message : "Failed to process withdrawal",
         variant: "destructive",
       });
-      return;
     }
-
-    toast({
-      title: "Withdrawal Successful",
-      description: `$${amount} has been withdrawn successfully.`,
-    });
-
-    if (onBack) onBack();
   };
 
   return (
