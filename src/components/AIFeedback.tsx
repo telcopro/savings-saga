@@ -29,7 +29,7 @@ const AIFeedback = () => {
           style: 'currency',
           currency: 'USD'
         });
-        return `- ${t.date}: ${t.type === 'credit' ? 'Received' : 'Spent'} ${formattedAmount} - ${t.description}`;
+        return `- ${t.date}: ${t.type === 'credit' ? 'Received' : 'Spent'} ${formattedAmount} (${t.description})`;
       })
       .join('\n');
 
@@ -39,11 +39,12 @@ Total Balance Across Accounts: ${totalBalance.toLocaleString('en-US', {
   style: 'currency',
   currency: 'USD'
 })}
+
 Number of Accounts: ${accounts.length}
 
 Account Details:
 ${accounts.map(acc => 
-  `- ${acc.name} (${acc.type}): ${acc.balance.toLocaleString('en-US', {
+  `- ${acc.type}: ${acc.balance.toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD'
   })}`
