@@ -52,7 +52,6 @@ ${accounts.map(acc =>
 Recent Transactions:
 ${transactionsText}`;
 
-    console.log('Generated Prompt:', prompt);
     return prompt;
   };
 
@@ -60,6 +59,7 @@ ${transactionsText}`;
     setLoading(true);
     try {
       const generatedPrompt = generatePrompt();
+      console.log('Generated Prompt:', generatedPrompt);
       console.log('Transactions:', transactions);
       const data = await getAIFeedback(generatedPrompt, language);
       setFeedback(data.feedback);
