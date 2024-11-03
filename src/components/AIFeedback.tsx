@@ -16,6 +16,14 @@ const AIFeedback = () => {
   const generatePrompt = () => {
     const totalBalance = accounts.reduce((sum, acc) => sum + acc.balance, 0);
     
+    // Get transactions from the last 3 months
+    const threeMonthsAgo = new Date();
+    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+    
+    const recentTransactions = transactions
+      .filter(t => new Date(t.date) >= threeMonthsAgo)
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
     return `Please analyze this customer's financial situation:
 
 Total Balance Across Accounts: $${totalBalance}
@@ -24,9 +32,9 @@ Number of Accounts: ${accounts.length}
 Account Details:
 ${accounts.map(acc => `- ${acc.name} (${acc.type}): $${acc.balance}`).join('\n')}
 
-Recent Transactions:
-${transactions.slice(0, 5).map(t => 
-  `- ${t.type === 'credit' ? 'Received' : 'Spent'} $${t.amount} - ${t.description}`
+All Transactions from Past 3 Months:
+${recentTransactions.map(t => 
+  `- ${t.date}: ${t.type === 'credit' ? 'Received' : 'Spent'} $${t.amount} - ${t.description}`
 ).join('\n')}`;
   };
 
