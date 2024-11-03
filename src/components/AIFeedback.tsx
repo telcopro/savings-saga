@@ -5,6 +5,7 @@ import { Loader2, MessageSquare } from "lucide-react";
 import { useBanking } from "@/contexts/BankingContext";
 import { useMortgage } from "@/contexts/MortgageContext";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { getAIFeedback } from "@/api/ai-feedback";
 
 const AIFeedback = () => {
   const [feedback, setFeedback] = useState<string | null>(null);
@@ -43,21 +44,10 @@ Please provide a friendly, encouraging response that:
   const getFeedback = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/ai-feedback', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ prompt: generatePrompt() }),
-      });
-      
-      if (!response.ok) throw new Error('Failed to get AI feedback');
-      
-      const data = await response.json();
+      const data = await getAIFeedback(generatePrompt());
       setFeedback(data.feedback);
     } catch (error) {
-      // For demo purposes, set a sample response
-      setFeedback("Great job maintaining multiple accounts! Your savings show good financial planning. Consider setting up automatic transfers to boost your savings even further while maintaining your current responsible spending habits.");
+      console.error('Failed to get AI feedback:', error);
     } finally {
       setLoading(false);
     }
