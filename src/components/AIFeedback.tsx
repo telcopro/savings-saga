@@ -12,13 +12,13 @@ const AIFeedback = () => {
   const [loading, setLoading] = useState(false);
   const { accounts, transactions } = useBanking();
   const { mortgages } = useMortgage();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const generatePrompt = () => {
     const totalBalance = accounts.reduce((sum, acc) => sum + acc.balance, 0);
     const mortgageBalance = mortgages.reduce((sum, m) => sum + m.remainingBalance, 0);
     
-    return `You are a friendly and encouraging customer service agent at a bank. Please provide a positive analysis of this customer's financial situation and give some encouraging advice. Here's their financial data:
+    return `Please analyze this customer's financial situation:
 
 Total Balance Across Accounts: $${totalBalance}
 Number of Accounts: ${accounts.length}
@@ -31,20 +31,13 @@ ${accounts.map(acc => `- ${acc.type} Account: $${acc.balance}`).join('\n')}
 Recent Transactions:
 ${transactions.slice(0, 5).map(t => 
   `- ${t.type === 'credit' ? 'Received' : 'Spent'} $${t.amount} - ${t.description}`
-).join('\n')}
-
-Please provide a friendly, encouraging response that:
-1. Highlights positive aspects of their financial situation
-2. Gives gentle suggestions for improvement
-3. Encourages good financial habits
-4. Keeps an optimistic and supportive tone
-5. Is concise (max 3-4 sentences)`;
+).join('\n')}`;
   };
 
   const getFeedback = async () => {
     setLoading(true);
     try {
-      const data = await getAIFeedback(generatePrompt());
+      const data = await getAIFeedback(generatePrompt(), language);
       setFeedback(data.feedback);
     } catch (error) {
       console.error('Failed to get AI feedback:', error);
