@@ -16,7 +16,6 @@ const AIFeedback = () => {
   const generatePrompt = () => {
     const totalBalance = accounts.reduce((sum, acc) => sum + acc.balance, 0);
     
-    // Get transactions from the last 3 months
     const threeMonthsAgo = new Date();
     threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
     
@@ -82,8 +81,10 @@ ${transactionsText}`;
       {feedback ? (
         <div className="space-y-4">
           <div className="p-4 bg-muted rounded-lg">
-            <h3 className="font-medium mb-2">Complete Prompt:</h3>
-            <pre className="whitespace-pre-wrap text-sm overflow-auto max-h-[400px]">{fullPrompt}</pre>
+            <h3 className="font-medium mb-2">Complete Analysis Data:</h3>
+            <pre className="whitespace-pre-wrap text-sm overflow-auto max-h-[400px] bg-muted p-2 rounded">
+              {fullPrompt}
+            </pre>
           </div>
           <div className="p-4 bg-primary/5 rounded-lg">
             <h3 className="font-medium mb-2">AI Response:</h3>
