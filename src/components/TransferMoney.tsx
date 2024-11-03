@@ -18,6 +18,7 @@ const TransferMoney = ({ preSelectedAccount, onBack }: TransferMoneyProps) => {
   const { accounts, transferMoney } = useBanking();
   const { t } = useLanguage();
   const [amount, setAmount] = useState("");
+  const [description, setDescription] = useState("");
   const [fromAccount, setFromAccount] = useState(preSelectedAccount || "");
   const [toAccount, setToAccount] = useState("");
 
@@ -41,12 +42,13 @@ const TransferMoney = ({ preSelectedAccount, onBack }: TransferMoneyProps) => {
     }
 
     try {
-      transferMoney(Number(fromAccount), Number(toAccount), Number(amount));
+      transferMoney(Number(fromAccount), Number(toAccount), Number(amount), description || "Transfer");
       toast({
         title: t('transferSuccessful'),
         description: t('transferSuccessMessage').replace('${amount}', `$${amount}`),
       });
       setAmount("");
+      setDescription("");
       setFromAccount(preSelectedAccount || "");
       setToAccount("");
       if (onBack) onBack();
@@ -111,6 +113,16 @@ const TransferMoney = ({ preSelectedAccount, onBack }: TransferMoneyProps) => {
             onChange={(e) => setAmount(e.target.value)}
             min="0"
             step="0.01"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-1">Description (Optional)</label>
+          <Input
+            type="text"
+            placeholder="Enter description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </div>
 

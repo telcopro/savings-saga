@@ -26,6 +26,7 @@ const WithdrawMoney = ({ accounts, preSelectedAccount, onBack }: WithdrawMoneyPr
   const { accounts: contextAccounts, withdrawMoney } = useBanking();
   const { t } = useLanguage();
   const [amount, setAmount] = useState("");
+  const [description, setDescription] = useState("");
   const [fromAccount, setFromAccount] = useState(preSelectedAccount || "");
 
   const availableAccounts = accounts.length > 0 ? accounts : contextAccounts;
@@ -53,7 +54,7 @@ const WithdrawMoney = ({ accounts, preSelectedAccount, onBack }: WithdrawMoneyPr
     }
 
     try {
-      withdrawMoney(account.id, withdrawAmount);
+      withdrawMoney(account.id, withdrawAmount, description || "ATM Withdrawal");
       
       toast({
         title: "Withdrawal Successful",
@@ -61,6 +62,7 @@ const WithdrawMoney = ({ accounts, preSelectedAccount, onBack }: WithdrawMoneyPr
       });
 
       setAmount("");
+      setDescription("");
       setFromAccount(preSelectedAccount || "");
       if (onBack) onBack();
     } catch (error) {
@@ -108,6 +110,16 @@ const WithdrawMoney = ({ accounts, preSelectedAccount, onBack }: WithdrawMoneyPr
             onChange={(e) => setAmount(e.target.value)}
             min="0"
             step="0.01"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-1">Description (Optional)</label>
+          <Input
+            type="text"
+            placeholder="Enter description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </div>
 

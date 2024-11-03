@@ -20,8 +20,8 @@ interface Account {
 interface BankingContextType {
   accounts: Account[];
   transactions: Transaction[];
-  transferMoney: (fromAccountId: number, toAccountId: number, amount: number) => void;
-  withdrawMoney: (accountId: number, amount: number) => void;
+  transferMoney: (fromAccountId: number, toAccountId: number, amount: number, description?: string) => void;
+  withdrawMoney: (accountId: number, amount: number, description?: string) => void;
   getAccountTransactions: (accountId: number) => Transaction[];
   addAccount: (type: string, initialDeposit: number, name: string) => void;
 }
@@ -53,7 +53,7 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }
   ]);
 
-  const withdrawMoney = (accountId: number, amount: number) => {
+  const withdrawMoney = (accountId: number, amount: number, description: string = "ATM Withdrawal") => {
     const account = accounts.find(acc => acc.id === accountId);
     if (!account) {
       throw new Error("Account not found");
@@ -63,7 +63,6 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       throw new Error("Insufficient funds");
     }
 
-    // Update account balance
     setAccounts(accounts.map(acc => {
       if (acc.id === accountId) {
         return { ...acc, balance: acc.balance - amount };
@@ -71,11 +70,10 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       return acc;
     }));
 
-    // Create withdrawal transaction
     const newTransaction: Transaction = {
       id: Date.now(),
       date: new Date().toISOString().split('T')[0],
-      description: "ATM Withdrawal",
+      description,
       amount: amount,
       type: "debit",
       accountId: accountId
@@ -110,7 +108,7 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setTransactions([...transactions, newTransaction]);
   };
 
-  const transferMoney = (fromAccountId: number, toAccountId: number, amount: number) => {
+  const transferMoney = (fromAccountId: number, toAccountId: number, amount: number, description: string = "Transfer") => {
     const fromAccount = accounts.find(acc => acc.id === fromAccountId);
     const toAccount = accounts.find(acc => acc.id === toAccountId);
 
@@ -126,7 +124,6 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       throw new Error("Insufficient funds");
     }
 
-    // Update account balances
     setAccounts(accounts.map(account => {
       if (account.id === fromAccountId) {
         return { ...account, balance: account.balance - amount };
@@ -137,12 +134,11 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       return account;
     }));
 
-    // Create new transactions
     const newTransactions: Transaction[] = [
       {
         id: Date.now(),
         date: new Date().toISOString().split('T')[0],
-        description: `Transfer to account ${toAccount.accountNumber}`,
+        description: `${description} to account ${toAccount.accountNumber}`,
         amount: amount,
         type: "debit",
         accountId: fromAccountId
@@ -150,7 +146,7 @@ export const BankingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       {
         id: Date.now() + 1,
         date: new Date().toISOString().split('T')[0],
-        description: `Transfer from account ${fromAccount.accountNumber}`,
+        description: `${description} from account ${fromAccount.accountNumber}`,
         amount: amount,
         type: "credit",
         accountId: toAccountId
