@@ -9,6 +9,7 @@ import { getAIFeedback } from "@/api/ai-feedback";
 
 const AIFeedback = () => {
   const [feedback, setFeedback] = useState<string | null>(null);
+  const [prompt, setPrompt] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const { accounts, transactions } = useBanking();
   const { mortgages } = useMortgage();
@@ -37,7 +38,9 @@ ${transactions.slice(0, 5).map(t =>
   const getFeedback = async () => {
     setLoading(true);
     try {
-      const data = await getAIFeedback(generatePrompt(), language);
+      const generatedPrompt = generatePrompt();
+      setPrompt(generatedPrompt);
+      const data = await getAIFeedback(generatedPrompt, language);
       setFeedback(data.feedback);
     } catch (error) {
       console.error('Failed to get AI feedback:', error);
@@ -55,10 +58,20 @@ ${transactions.slice(0, 5).map(t =>
       
       {feedback ? (
         <div className="space-y-4">
-          <p className="text-gray-700">{feedback}</p>
+          <div className="p-4 bg-muted rounded-lg">
+            <h3 className="font-medium mb-2">Prompt sent to AI:</h3>
+            <pre className="whitespace-pre-wrap text-sm">{prompt}</pre>
+          </div>
+          <div className="p-4 bg-primary/5 rounded-lg">
+            <h3 className="font-medium mb-2">AI Response:</h3>
+            <p className="text-gray-700">{feedback}</p>
+          </div>
           <Button 
             variant="outline" 
-            onClick={() => setFeedback(null)}
+            onClick={() => {
+              setFeedback(null);
+              setPrompt(null);
+            }}
             className="w-full"
           >
             {t('getNewFeedback')}
