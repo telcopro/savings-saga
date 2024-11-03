@@ -18,9 +18,14 @@ const AIFeedback = () => {
     
     const threeMonthsAgo = new Date();
     threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+    threeMonthsAgo.setHours(0, 0, 0, 0); // Set to start of day
     
     const recentTransactions = transactions
-      .filter(t => new Date(t.date) >= threeMonthsAgo)
+      .filter(t => {
+        const transactionDate = new Date(t.date);
+        transactionDate.setHours(0, 0, 0, 0); // Set to start of day for fair comparison
+        return transactionDate >= threeMonthsAgo;
+      })
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
     const transactionsText = recentTransactions.length > 0 
