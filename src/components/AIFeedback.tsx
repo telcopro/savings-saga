@@ -20,10 +20,7 @@ const AIFeedback = () => {
     threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
     
     const recentTransactions = transactions
-      .filter(t => {
-        const transactionDate = new Date(t.date);
-        return transactionDate >= threeMonthsAgo;
-      })
+      .filter(t => new Date(t.date) >= threeMonthsAgo)
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
     const transactionsText = recentTransactions.length > 0 
@@ -36,9 +33,9 @@ const AIFeedback = () => {
             return `- ${t.date}: ${t.type === 'credit' ? 'Received' : 'Spent'} ${formattedAmount} (${t.description})`;
           })
           .join('\n')
-      : "No recent transactions";
+      : "No transactions in the last 3 months";
 
-    return `Please analyze this customer's financial situation:
+    const prompt = `Please analyze this customer's financial situation:
 
 Total Balance Across Accounts: ${totalBalance.toLocaleString('en-US', {
       style: 'currency',
@@ -57,13 +54,15 @@ ${accounts.map(acc =>
 
 Recent Transactions:
 ${transactionsText}`;
+
+    console.log("Generated Prompt:", prompt);
+    return prompt;
   };
 
   const getFeedback = async () => {
     setLoading(true);
     try {
       const generatedPrompt = generatePrompt();
-      console.log("Generated Prompt:", generatedPrompt); // Log the prompt
       const data = await getAIFeedback(generatedPrompt, language);
       setFeedback(data.feedback);
       setFullPrompt(data.fullPrompt);
