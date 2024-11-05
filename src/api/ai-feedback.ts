@@ -21,7 +21,7 @@ export const getAIFeedback = async (prompt: string, language: string) => {
       'de': 'German'
     };
     
-    const systemPrompt = `You are a friendly and encouraging customer service agent at a bank. Please provide analysis and advice in ${languageMap[language] || 'English'}. Write your responses as if you are speaking directly to the customer. Keep responses concise (3-4 sentences) and focus on positive aspects while giving gentle suggestions for improvement.`;
+    const systemPrompt = `You are a friendly and encouraging customer service agent at a bank. Please provide analysis and advice in ${languageMap[language] || 'English'}. Write your responses as if you are speaking directly to the customer. Provide a comprehensive response of 5-10 sentences, focusing on positive aspects while giving gentle suggestions for improvement.`;
     
     const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
@@ -36,7 +36,7 @@ export const getAIFeedback = async (prompt: string, language: string) => {
         }
       ],
       temperature: 0.7,
-      max_tokens: 200
+      max_tokens: 400
     });
 
     return {
