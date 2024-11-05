@@ -13,7 +13,6 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Landing from "./pages/Landing";
 import EmailConfirmation from "./pages/EmailConfirmation";
-import Admin from "./pages/Admin";
 
 const queryClient = new QueryClient();
 
@@ -67,10 +66,6 @@ const App = () => {
                       <Route 
                         path="/auth/confirm" 
                         element={<EmailConfirmation />} 
-                      />
-                      <Route 
-                        path="/admin" 
-                        element={<Admin />} 
                       />
                     </Routes>
                   </BrowserRouter>

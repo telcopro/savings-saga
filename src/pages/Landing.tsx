@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Shield } from "lucide-react";
+import { Shield, Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { Drawer, DrawerTrigger } from "@/components/ui/drawer";
+import Admin from "./Admin";
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -33,6 +35,19 @@ const Landing = () => {
           >
             Log In
           </Button>
+          
+          <Drawer>
+            <DrawerTrigger asChild>
+              <Button
+                variant="ghost"
+                className="w-full h-12 text-lg flex items-center gap-2"
+              >
+                <Settings className="w-5 h-5" />
+                Admin Settings
+              </Button>
+            </DrawerTrigger>
+            <Admin />
+          </Drawer>
         </div>
       </Card>
     </div>

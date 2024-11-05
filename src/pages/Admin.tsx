@@ -4,7 +4,16 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { Key } from "lucide-react";
-import { Link } from "react-router-dom"; // Import Link for navigation
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 
 const Admin = () => {
   const [apiKey, setApiKey] = useState("");
@@ -29,39 +38,44 @@ const Admin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md p-6">
-        <div className="flex items-center gap-2 mb-6">
-          <Key className="w-6 h-6 text-blue-600" />
-          <h1 className="text-2xl font-bold">Admin Settings</h1>
-        </div>
-        
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <label htmlFor="apiKey" className="text-sm font-medium">
-              OpenAI API Key
-            </label>
-            <Input
-              id="apiKey"
-              type="password"
-              value={apiKey}
-              onChange={(e) => setApiKey(e.target.value)}
-              placeholder="sk-..."
-              className="font-mono"
-            />
+    <DrawerContent>
+      <DrawerHeader>
+        <DrawerTitle>Admin Settings</DrawerTitle>
+        <DrawerDescription>Configure your application settings here.</DrawerDescription>
+      </DrawerHeader>
+      <div className="p-4">
+        <Card className="w-full p-6">
+          <div className="flex items-center gap-2 mb-6">
+            <Key className="w-6 h-6 text-blue-600" />
+            <h2 className="text-xl font-semibold">OpenAI Configuration</h2>
           </div>
-          <Button type="submit" className="w-full">
-            Save API Key
-          </Button>
-        </form>
-
-        <div className="mt-4">
-          <Link to="/login" className="text-blue-600 hover:underline">
-            Back
-          </Link>
-        </div>
-      </Card>
-    </div>
+          
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <label htmlFor="apiKey" className="text-sm font-medium">
+                OpenAI API Key
+              </label>
+              <Input
+                id="apiKey"
+                type="password"
+                value={apiKey}
+                onChange={(e) => setApiKey(e.target.value)}
+                placeholder="sk-..."
+                className="font-mono"
+              />
+            </div>
+            <Button type="submit" className="w-full">
+              Save API Key
+            </Button>
+          </form>
+        </Card>
+      </div>
+      <DrawerFooter>
+        <DrawerClose asChild>
+          <Button variant="outline">Close</Button>
+        </DrawerClose>
+      </DrawerFooter>
+    </DrawerContent>
   );
 };
 
