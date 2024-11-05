@@ -13,10 +13,12 @@ import Messages from "@/components/Messages";
 import AIFeedback from "@/components/AIFeedback";
 import { MessagesProvider } from "@/contexts/MessagesContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Banknote, ArrowRight, CreditCard, Wallet, User, Home, MessageSquare, LogOut } from "lucide-react";
+import { Banknote, ArrowRight, CreditCard, Wallet, User, Home, MessageSquare, LogOut, Settings } from "lucide-react";
 import { useBanking } from "@/contexts/BankingContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/App";
+import { Drawer, DrawerTrigger } from "@/components/ui/drawer";
+import Admin from "@/pages/Admin";
 
 const Index = () => {
   const { toast } = useToast();
@@ -41,6 +43,19 @@ const Index = () => {
           <h1 className="text-2xl font-bold text-gray-900">{t('welcome')}</h1>
           <div className="flex items-center gap-4">
             <LanguageSelector />
+            <Drawer>
+              <DrawerTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className="flex items-center gap-2"
+                >
+                  <Settings className="h-4 w-4" />
+                  Admin
+                </Button>
+              </DrawerTrigger>
+              <Admin />
+            </Drawer>
             <Button 
               variant="outline" 
               size="sm" 
